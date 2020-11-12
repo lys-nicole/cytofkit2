@@ -574,7 +574,11 @@ shinyServer = function(input, output, session)
                                      , analysis_results$sampleInfo[, "cellSample", drop = F], ncol = 2, show_legend = F)
               p[[1]]
             }, values = c("dr_names[i]"), fig_width = 8, fig_height = 4)
-            return(c(script1, script2))
+            script3 = create_script(paste0("## ", temp_name, " plot color by marker expression\n",), {
+                                             plot_scatter(analysis_results$dimReducedRes[[dr_names[i]]]
+                                                          , analysis_results$sampleInfo[, "cellSample", drop = F]) + coord_fixed()
+                                           }, values = c("dr_names[i]"))
+            return(c(script1, script2, script3))
           })
           unlist(scripts)
         }
